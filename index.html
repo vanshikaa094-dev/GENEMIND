@@ -1,1 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gene Mind — Age-Aware Psychology, Genomics &amp; Peer Hub</title>
+  <style>
+    :root {
+      --bg-dark: #060D1A;
+      --bg-page: #EEF2F6;
+      --teal: #0D9488;
+      --teal-dark: #0F766E;
+      --indigo: #4F46E5;
+      --indigo-dark: #3730A3;
+      --text-main: #0F172A;
+      --text-muted: #475569;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    body {
+      background: var(--bg-page);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
 
+    /* PAGE 1: FULL-SCREEN ONBOARDING / UNIQUE ID CREATION */
+    #pageOne {
+      min-height: 100vh;
+      background: radial-gradient(circle at 18% 20%, rgba(20, 184, 166, 0.28), transparent 45%),
+                  radial-gradient(circle at 82% 80%, rgba(79, 70, 229, 0.32), transparent 50%),
+                  linear-gradient(155deg, #050B16 0%, #0F172A 55%, #1E1B4B 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .gate-card {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 550px;
+      border-radius: 24px;
+      padding: 2.5rem;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+    }
+    .pill {
+      display: inline-block;
+      background: #CCFBF1;
+      color: #0F766E;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      margin-bottom: 0.8rem;
+    }
+    .gate-card h1 {
+      font-size: 2.15rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #0F172A;
+      margin-bottom: 0.4rem;
+    }
+    .gate-card p {
+      color: #475569;
+      font-size: 0.95rem;
+      margin-bottom: 1.35rem;
+      line-height: 1.55;
+    }
+    .error-banner {
+      display: none;
+      background: #FEF2F2;
+      border: 1.5px solid #F87171;
+      color: #B91C1C;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .field {
+      margin-bottom: 1.05rem;
+    }
+    .field label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #1E293B;
+      margin-bottom: 0.35rem;
+    }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      border: 1.8px solid #CBD5E1;
+      font-size: 0.96rem;
+      background: #F8FAFC;
+      color: #0F172A;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      outline: none;
+      border-color: var(--teal);
+      background: #FFFFFF;
+      box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.14);
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 0.85rem;
+    }
+
+    /* BUTTONS */
+    .btn {
+      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+      color: #FFFFFF;
+      border: none;
+      padding: 0.95rem 1.5rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 20px -6px rgba(13, 148, 136, 0.55);
+    }
+    .btn:hover {
+      opacity: 0.95;
+    }
+    .btn-bio {
+      background: linear-gradient(135deg, var(--indigo) 0%, var(--indigo-dark) 100%);
+      box-shadow: 0 8px 20px -6px rgba(79, 70, 229, 0.55);
+    }
+    .btn-sm {
+      padding: 0.52rem 0.95rem;
+      font-size: 0.83rem;
+      border-radius: 9px;
+    }
+
+    /* PAGE 2: 3-COLUMN WORKSPACE */
+    #pageTwo {
+      display: none;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+    .topbar {
+      background: #060D1A;
+      color: #FFFFFF;
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .brand {
+      font-weight: 800;
+      font-size: 1.2rem;
+    }
+    .top-tag {
+      font-size: 0.8rem;
+      color: #5EEAD4;
+      background: rgba(20, 184, 166, 0.16);
+      border: 1px solid rgba(94, 234, 212, 0.35);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+    }
+
+    .workspace-grid {
+      display: grid;
+      grid-template-columns: 275px minmax(0, 1fr) 310px;
+      gap: 1.25rem;
+      max-width: 1460px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1.25rem;
+      align-items: start;
+    }
+    @media (max-width: 1060px) {
+      .workspace-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: #FFFFFF;
+      border-radius: 18px;
+      padding: 1.45rem;
+      box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.08);
+      border: 1px solid #E2E8F0;
+    }
+    .sticky {
+      position: sticky;
+      top: 1.25rem;
+    }
+    @media (max-width: 1060px) {
+      .sticky {
+        position: static;
+      }
+    }
+
+    /* LEFT SIDEBAR: PROFILE */
+    .avatar {
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #0D9488, #4F46E5);
+      color: #FFFFFF;
+      font-size: 1.45rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.85rem;
+    }
+    .handle-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #0F172A;
+    }
+    .age-pill {
+      display: inline-block;
+      margin-top: 0.3rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #4F46E5;
+      background: #EEF2FF;
+      padding: 0.22rem 0.65rem;
+      border-radius: 999px;
+    }
+    .bio-box {
+      margin-top: 0.85rem;
+      padding: 0.85rem;
+      background: #F8FAFC;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      color: #334155;
+      border: 1px solid #E2E8F0;
+    }
+    .switch-btn {
+      margin-top: 1rem;
+      width: 100%;
+      background: #F1F5F9;
+      color: #334155;
+      border: 1px solid #CBD5E1;
+      padding: 0.6rem;
+      border-radius: 10px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* CENTER: STORY & RESPONSES */
+    .kicker {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--teal);
+      margin-bottom: 0.25rem;
+    }
+    .heading {
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 0.3rem;
+    }
+    .story-box {
+      width: 100%;
+      min-height: 115px;
+      padding: 1rem;
+      border-radius: 14px;
+      border: 2px solid #CBD5E1;
+      font-size: 0.98rem;
+      background: #F8FAFC;
+      margin-top: 0.75rem;
+      resize: vertical;
+      line-height: 1.55;
+    }
+    .story-box:focus {
+      outline: none;
+      border-color: var(--teal);
+      background: #FFFFFF;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin: 0.7rem 0 1rem;
+    }
+    .chip {
+      background: #F1F5F9;
+      border: 1px solid #CBD5E1;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #334155;
+      cursor: pointer;
+    }
+
+    .lens-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    @media (max-width: 680px) {
+      .lens-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .lens-card {
+      border: 2px solid #E2E8F0;
+      border-radius: 14px;
+      padding: 1.2rem;
+      background: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .lens-card h3 {
+      font-size: 1.1rem;
+      margin: 0.3rem 0 0.45rem;
+    }
+
+    .insight-block {
+      background: #F8FAFC;
+      border-left: 4px solid var(--teal);
+      padding: 1.1rem;
+      border-radius: 10px;
+      margin: 0.85rem 0 1.2rem;
+      font-size: 0.94rem;
+      color: #1E293B;
+    }
+    .bio-accent {
+      border-left-color: var(--indigo);
+    }
+
+    .chat-stream {
+      background: #F1F5F9;
+      border-radius: 14px;
+      padding: 0.95rem;
+      max-height: 310px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      margin: 0.6rem 0 0.8rem;
+    }
+    .bubble {
+      padding: 0.8rem 1rem;
+      border-radius: 13px;
+      font-size: 0.92rem;
+      max-width: 88%;
+      line-height: 1.55;
+    }
+    .bubble.bot {
+      background: #FFFFFF;
+      color: #0F172A;
+      align-self: flex-start;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .bubble.me {
+      background: var(--teal);
+      color: #FFFFFF;
+      align-self: flex-end;
+    }
+    .bubble.me.bio-me {
+      background: var(--indigo);
+    }
+    .prompt-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.65rem;
+    }
+    .p-pill {
+      background: #E2E8F0;
+      border: none;
+      padding: 0.34rem 0.72rem;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #1E293B;
+      cursor: pointer;
+    }
+    .input-bar {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .input-bar input {
+      flex: 1;
+      padding: 0.8rem 0.95rem;
+      border-radius: 10px;
+      border: 1.5px solid #CBD5E1;
+      font-size: 0.93rem;
+    }
+    .next-step-bar {
+      margin-top: 1.25rem;
+      padding: 1rem 1.15rem;
+      background: #EEF2FF;
+      border: 1px solid #C7D2FE;
+      border-radius: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    /* RIGHT SIDEBAR: SIMILAR PEER COMMUNITY */
+    .peer-card {
+      background: #F8FAFC;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 0.95rem;
+      margin-top: 0.85rem;
+    }
+    .peer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.25rem;
+    }
+    .peer-handle {
+      font-weight: 800;
+      font-size: 0.92rem;
+      color: #0F172A;
+    }
+    .match-badge {
+      background: #DCFCE7;
+      color: #166534;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+    }
+    .peer-vibe {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--indigo);
+      margin-bottom: 0.35rem;
+    }
+    .peer-desc {
+      font-size: 0.82rem;
+      color: #475569;
+      margin-bottom: 0.65rem;
+    }
+    .peer-notes {
+      font-size: 0.78rem;
+      color: #0F766E;
+      background: #F0FDFA;
+      padding: 0.45rem 0.6rem;
+      border-radius: 8px;
+      margin-bottom: 0.55rem;
+    }
+    .peer-row {
+      display: flex;
+      gap: 0.35rem;
+    }
+    .peer-row input {
+      flex: 1;
+      padding: 0.45rem 0.6rem;
+      border-radius: 8px;
+      border: 1px solid #CBD5E1;
+      font-size: 0.78rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1: FULL-SCREEN UNIQUE ID GATE -->
+  <div id="pageOne">
+    <form class="gate-card" id="signupForm">
+      <div class="pill">🧬 Gene Mind • Community &amp; AI Companion</div>
+      <h1>Create Your Unique ID</h1>
+      <p>Pick a fun handle, enter your age for personalized psychological insights, and describe who you are so peers with similar traits can connect with you.</p>
+
+      <div class="error-banner" id="gateError"></div>
+
+      <div class="two-col">
+        <div class="field">
+          <label for="idInput">Unique User ID *</label>
+          <input type="text" id="idInput" placeholder="e.g., @MidnightSynapse" />
+        </div>
+        <div class="field">
+          <label for="ageInput">Your Age *</label>
+          <input type="text" inputmode="numeric" id="ageInput" placeholder="e.g., 18" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="vibeInput">Your Trait Vibe</label>
+        <select id="vibeInput">
+          <option value="Night-Owl Deep Thinker">🦉 Night-Owl Deep Thinker</option>
+          <option value="High-Drive Exam Sprinter">⚡ High-Drive Exam Sprinter</option>
+          <option value="Creative Overthinker">🎨 Creative Overthinker</option>
+          <option value="Calm Analytical Builder">🔬 Calm Analytical Builder</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="bioInput">Your Unique Description (Who are you?) *</label>
+        <textarea id="bioInput" rows="3" placeholder="e.g., 18 y/o science lover who gets peak focus at midnight and overthinks mock tests."></textarea>
+      </div>
+
+      <button type="submit" id="enterBtn" class="btn" style="width:100%;">Create My Account &amp; Enter Workspace →</button>
+    </form>
+  </div>
+
+  <!-- PAGE 2: 3-COLUMN WORKSPACE (LEFT PROFILE SIDEBAR | CENTER STORY & RESPONSES | RIGHT PEER COMMUNITY) -->
+  <div id="pageTwo">
+    <div class="topbar">
+      <div class="brand">🧬 Gene Mind</div>
+      <div class="top-tag">Age-Aware Psychology &amp; Open-Source Genomics</div>
+    </div>
+
+    <div class="workspace-grid">
+      <!-- LEFT SIDEBAR: YOUR IDENTITY -->
+      <aside class="card sticky">
+        <div class="kicker">Your Identity</div>
+        <div class="avatar" id="sideAvatar">GM</div>
+        <div class="handle-title" id="sideHandle">@Explorer</div>
+        <div class="age-pill" id="sideBadge">Age 18 • Night-Owl</div>
+        <div class="bio-box" id="sideBio">Your description appears here.</div>
+        <button type="button" id="editProfileBtn" class="switch-btn">← Edit Profile / Switch ID</button>
+      </aside>
+
+      <!-- CENTER MAIN STAGE: STORY & DUAL-LENS RESPONSES -->
+      <main id="centerStage">
+        <div class="card" style="margin-bottom: 1.25rem;">
+          <div class="kicker">Step 01 • Express Your Story</div>
+          <div class="heading">Tell Your Story in Your Own Words</div>
+          <p style="font-size:0.92rem; color:#475569;">Write freely about your symptoms, exam stress, sleep rhythm, or emotions. Gene Mind tailors both lenses to your exact age.</p>
+
+          <textarea id="storyBox" class="story-box" placeholder="Write freely... e.g., 'Even when I sleep 7 hours I feel exhausted, my heart races before exams, and I only focus late at night.'"></textarea>
+
+          <div class="chips">
+            <button type="button" class="chip" data-sample="stress">Sample: Exam burnout &amp; overthinking</button>
+            <button type="button" class="chip" data-sample="sleep">Sample: Late-night focus &amp; morning fog</button>
+            <button type="button" class="chip" data-sample="caffeine">Sample: Racing heart &amp; sensitivity</button>
+          </div>
+
+          <button type="button" id="analyzeBtn" class="btn" style="width:100%;">Analyze My Story ✨</button>
+        </div>
+
+        <!-- DUAL LENS SELECTION -->
+        <div class="card" id="choiceBox" style="display:none; margin-bottom: 1.25rem;">
+          <div class="kicker">Step 02 • Choose Your First Lens</div>
+          <div class="heading">Which Response Do You Want to Explore First?</div>
+          <p style="font-size:0.9rem; color:#475569;">Open either perspective to talk it through—you can unlock the second perspective right underneath afterward.</p>
+
+          <div class="lens-grid">
+            <div class="lens-card">
+              <div>
+                <div class="kicker">Lens A • Mind &amp; Behavior</div>
+                <h3>🧠 Psychological Response</h3>
+                <p id="psychPreview" style="font-size:0.88rem; color:#475569; margin-bottom:1rem;"></p>
+              </div>
+              <button type="button" id="openPsychBtn" class="btn btn-sm" style="width:100%;">Explore Psychological Lens</button>
+            </div>
+
+            <div class="lens-card">
+              <div>
+                <div class="kicker" style="color:var(--indigo);">Lens B • Genomics &amp; Physiology</div>
+                <h3>🧬 Biological Response</h3>
+                <p id="bioPreview" style="font-size:0.88rem; color:#475569; margin-bottom:1rem;"></p>
+              </div>
+              <button type="button" id="openBioBtn" class="btn btn-bio btn-sm" style="width:100%;">Explore Biological Lens</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PSYCHOLOGICAL INTERACTIVE PANEL -->
+        <div class="card" id="psychPanel" style="display:none; margin-bottom:1.25rem; border-top:5px solid var(--teal);">
+          <div class="kicker">Age-Tailored Psychological Guidance</div>
+          <div class="heading">🧠 Psychological &amp; Behavioral Insight</div>
+          <div class="insight-block" id="psychDetail"></div>
+
+          <strong style="font-size:0.94rem;">💬 Talk With Your Psychological Reflection Guide</strong>
+          <div class="chat-stream" id="psychChat"></div>
+
+          <div class="prompt-pills">
+            <button type="button" class="p-pill" data-lens="psych" data-q="Why does my brain react like this at my age?">Why at my age?</button>
+            <button type="button" class="p-pill" data-lens="psych" data-q="How do I stop overthinking right now?">Stop overthinking</button>
+            <button type="button" class="p-pill" data-lens="psych" data-q="Give me a calm 10-minute reset plan.">10-minute reset plan</button>
+          </div>
+
+          <div class="input-bar">
+            <input type="text" id="psychIn" placeholder="Tell me more about what you feel or ask a follow-up..." />
+            <button type="button" id="psychSendBtn" class="btn btn-sm">Send</button>
+          </div>
+
+          <div class="next-step-bar" id="toBioBar">
+            <div>
+              <strong style="font-size:0.9rem; color:#1E1B4B;">Ready to see how your biology connects?</strong>
+              <div style="font-size:0.8rem; color:#475569;">Open the biological &amp; open-source genomic perspective below.</div>
+            </div>
+            <button type="button" id="unlockBioBtn" class="btn btn-bio btn-sm">Talk About Biological Aspect Below ↓</button>
+          </div>
+        </div>
+
+        <!-- BIOLOGICAL INTERACTIVE PANEL -->
+        <div class="card" id="bioPanel" style="display:none; margin-bottom:1.25rem; border-top:5px solid var(--indigo);">
+          <div class="kicker" style="color:var(--indigo);">Open-Source Genomics &amp; Neurochemistry</div>
+          <div class="heading">🧬 Biological &amp; Genomic Insight</div>
+          <div class="insight-block bio-accent" id="bioDetail"></div>
+
+          <strong style="font-size:0.94rem;">💬 Talk Through the Biological &amp; Genetic Aspect</strong>
+          <div class="chat-stream" id="bioChat"></div>
+
+          <div class="prompt-pills">
+            <button type="button" class="p-pill" data-lens="bio" data-q="Which genes or neurotransmitters are involved?">Which genes are involved?</button>
+            <button type="button" class="p-pill" data-lens="bio" data-q="How does my age affect my sleep and stress hormones?">Age &amp; brain chemistry</button>
+            <button type="button" class="p-pill" data-lens="bio" data-q="How can I naturally balance cortisol and dopamine?">Balance cortisol/dopamine</button>
+          </div>
+
+          <div class="input-bar">
+            <input type="text" id="bioIn" placeholder="Ask about COMT, CLOCK genes, cortisol, or sleep biology..." />
+            <button type="button" id="bioSendBtn" class="btn btn-bio btn-sm">Send</button>
+          </div>
+
+          <div class="next-step-bar" id="toPsychBar" style="background:#F0FDFA; border-color:#99F6E4;">
+            <div>
+              <strong style="font-size:0.9rem; color:#0F766E;">Want to connect this biology back to your mindset?</strong>
+              <div style="font-size:0.8rem; color:#475569;">Open the psychological perspective right below.</div>
+            </div>
+            <button type="button" id="unlockPsychBtn" class="btn btn-sm">Talk About Psychological Aspect Below ↓</button>
+          </div>
+        </div>
+      </main>
+
+      <!-- RIGHT SIDEBAR: SIMILAR TRAIT PEER COMMUNITY -->
+      <aside class="card sticky">
+        <div class="kicker">Peer Network</div>
+        <h3 style="font-size:1.1rem; font-weight:800;">🤝 Similar Trait Minds</h3>
+        <p style="font-size:0.82rem; color:#475569; margin-top:0.2rem;">Connect with people who share your behavioral &amp; circadian vibe.</p>
+        <div id="peerSidebar"></div>
+      </aside>
+    </div>
+  </div>
+
+<script>
+(function() {
+  var profile = {
+    handle: "@Explorer",
+    age: 18,
+    vibe: "Night-Owl Deep Thinker",
+    bio: ""
+  };
+  var activeTopic = "stress";
+
+  var community = [
+    {
+      handle: "@CircadianAarav",
+      age: 18,
+      vibe: "Night-Owl Deep Thinker",
+      topic: "sleep",
+      bio: "18 y/o physics nerd. Zero focus before 11 AM, unstoppable problem-solving at midnight.",
+      notes: ["Morning sunlight helped shift my sleep clock by an hour!"]
+    },
+    {
+      handle: "@CortisolDiya",
+      age: 17,
+      vibe: "High-Drive Exam Sprinter",
+      topic: "stress",
+      bio: "17 y/o pre-med student who overthinks mock tests and gets sudden exam brain freeze.",
+      notes: ["20-minute micro-goals saved my revision week."]
+    },
+    {
+      handle: "@DopamineKabir",
+      age: 19,
+      vibe: "Creative Overthinker",
+      topic: "caffeine",
+      bio: "19 y/o bio & design student. One cup of coffee gives me 4 hours of heart jitters.",
+      notes: []
+    }
+  ];
+
+  function showGateError(msg) {
+    var box = document.getElementById("gateError");
+    box.textContent = msg;
+    box.style.display = "block";
+  }
+
+  function handleAccountSubmit(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    var h = document.getElementById("idInput").value.trim();
+    var rawAge = document.getElementById("ageInput").value.trim();
+    var ageNum = parseInt(rawAge.replace(/[^0-9]/g, ""), 10);
+    var v = document.getElementById("vibeInput").value;
+    var b = document.getElementById("bioInput").value.trim();
+
+    if (!h) {
+      showGateError("Please enter a Unique User ID (for example: @MidnightSynapse).");
+      return;
+    }
+    if (!ageNum || ageNum < 10 || ageNum > 100) {
+      showGateError("Please enter your age as a number (for example: 18).");
+      return;
+    }
+    if (!b) {
+      showGateError("Please enter a short description of yourself in the bio box.");
+      return;
+    }
+
+    document.getElementById("gateError").style.display = "none";
+
+    if (h.charAt(0) !== "@") {
+      h = "@" + h.replace(/\s+/g, "");
+    }
+    profile = { handle: h, age: ageNum, vibe: v, bio: b };
+
+    var initials = h.replace("@", "").substring(0, 2).toUpperCase();
+    document.getElementById("sideAvatar").textContent = initials || "GM";
+    document.getElementById("sideHandle").textContent = h;
+    document.getElementById("sideBadge").textContent = "Age " + ageNum + " • " + v;
+    document.getElementById("sideBio").textContent = b;
+
+    document.getElementById("pageOne").style.display = "none";
+    document.getElementById("pageTwo").style.display = "flex";
+    window.scrollTo(0, 0);
+    drawPeers();
+  }
+
+  document.getElementById("signupForm").addEventListener("submit", handleAccountSubmit);
+
+  document.getElementById("editProfileBtn").addEventListener("click", function() {
+    document.getElementById("pageTwo").style.display = "none";
+    document.getElementById("pageOne").style.display = "flex";
+  });
+
+  var sampleButtons = document.querySelectorAll(".chip");
+  for (var i = 0; i < sampleButtons.length; i++) {
+    sampleButtons[i].addEventListener("click", function() {
+      var type = this.getAttribute("data-sample");
+      var samples = {
+        stress: "Whenever exams get close, I overthink everything, feel mentally exhausted, and my brain freezes even after sitting at my desk for hours.",
+        sleep: "I feel super sleepy and foggy every morning no matter how early I sleep, but my mind suddenly becomes sharp around 10 PM.",
+        caffeine: "Even a small cup of coffee or tea makes my heart race and gives me anxiety, and it takes hours for my body to calm down."
+      };
+      document.getElementById("storyBox").value = samples[type] || "";
+    });
+  }
+
+  function ageContext(age) {
+    if (age <= 19) {
+      return {
+        stage: "Age " + age + " (Late Adolescence / Student Stage)",
+        psych: "At age " + age + ", your brain's emotional salience system reacts rapidly to academic and future-milestone pressure while your prefrontal 'braking' network is still fine-tuning. Feeling overwhelmed by big expectations is a normal developmental signal, not a weakness.",
+        bio: "Around age " + age + ", natural melatonin release shifts 1–2 hours later than in older adults, and high synaptic plasticity makes your brain extra responsive to both sleep debt and focused learning."
+      };
+    } else if (age <= 25) {
+      return {
+        stage: "Age " + age + " (Emerging Adulthood)",
+        psych: "At age " + age + ", navigating independence and high cognitive workloads commonly triggers perfectionism and comparison loops.",
+        bio: "In your early twenties (age " + age + "), prefrontal dopamine pathways peak in adaptability, making consistent sleep anchors highly effective."
+      };
+    } else {
+      return {
+        stage: "Age " + age + " (Adult Cognitive Stage)",
+        psych: "At age " + age + ", sustained multitasking and role responsibilities tend to drive cognitive overload rather than acute test anxiety.",
+        bio: "At age " + age + ", protecting slow-wave deep sleep and steady morning cortisol curves keeps daily neurotransmitter balance resilient."
+      };
+    }
+  }
+
+  document.getElementById("analyzeBtn").addEventListener("click", function() {
+    var raw = document.getElementById("storyBox").value.trim();
+    if (!raw) {
+      alert("Please type your story or click one of the sample buttons first!");
+      return;
+    }
+    var low = raw.toLowerCase();
+
+    var topic = "stress";
+    if (low.indexOf("sleep") !== -1 || low.indexOf("night") !== -1 || low.indexOf("morning") !== -1 || low.indexOf("tired") !== -1 || low.indexOf("foggy") !== -1) {
+      topic = "sleep";
+    } else if (low.indexOf("coffee") !== -1 || low.indexOf("caffeine") !== -1 || low.indexOf("heart") !== -1 || low.indexOf("anxi") !== -1 || low.indexOf("panic") !== -1) {
+      topic = "caffeine";
+    }
+    activeTopic = topic;
+
+    var ac = ageContext(profile.age);
+
+    var bank = {
+      stress: {
+        ps: "Cognitive overload & avoidance freeze—high pressure crowds working memory and triggers mental fatigue.",
+        bs: "HPA-axis cortisol surge & COMT/BDNF dopamine clearance—prolonged stress temporarily reduces prefrontal focus.",
+        pd: "<strong>Developmental Lens (" + ac.stage + "):</strong> " + ac.psych + "<br><br><strong>What Your Story Shows:</strong> Your working memory is crowded with 'what-if' loops, causing your brain to treat a large workload like an immediate threat and freeze.<br><br><strong>Therapeutic Reframe:</strong> Separate your <em>self-worth</em> from your <em>to-do list</em>, and shrink your focus to one 20-minute micro-step.",
+        bd: "<strong>Biological Context (" + ac.stage + "):</strong> " + ac.bio + "<br><br><strong>Genomic &amp; Neurochemical Pathway:</strong> Sustained strain activates the HPA axis, releasing <strong>cortisol</strong>. Open-source behavioral genomics (<em>COMT</em> and <em>BDNF</em> pathways) shows prolonged cortisol clears dopamine from the prefrontal cortex.<br><br><strong>Biological Reset:</strong> Practice 4-7-8 slow exhale breathing for 2 minutes to stimulate the vagus nerve."
+      },
+      sleep: {
+        ps: "Chronotype mismatch—forcing intense study during biological low-energy hours creates frustration and guilt.",
+        bs: "CLOCK & PER2 circadian gene expression—delayed melatonin drop shifts peak alertness toward evening hours.",
+        pd: "<strong>Developmental Lens (" + ac.stage + "):</strong> " + ac.psych + "<br><br><strong>What Your Story Shows:</strong> Fighting your natural energy rhythm creates unnecessary self-criticism during morning brain fog.<br><br><strong>Therapeutic Reframe:</strong> Use foggy morning hours for light organization and protect your evening peak for deep analytical work.",
+        bd: "<strong>Biological Context (" + ac.stage + "):</strong> " + ac.bio + "<br><br><strong>Genomic &amp; Circadian Pathway:</strong> Circadian genes (<em>CLOCK</em>, <em>PER2</em>) control daily melatonin and cortisol timing. In delayed-phase phenotypes, morning melatonin lingers longer after waking.<br><br><strong>Biological Reset:</strong> Get 10 minutes of outdoor morning sunlight right after waking to anchor your master brain clock."
+      },
+      caffeine: {
+        ps: "Heightened interoceptive awareness—noticing a fast heartbeat quickly escalates into anxious worry loops.",
+        bs: "CYP1A2 & ADORA2A sensitivity profile—slower stimulant clearance keeps nervous arousal elevated for hours.",
+        pd: "<strong>Developmental Lens (" + ac.stage + "):</strong> " + ac.psych + "<br><br><strong>What Your Story Shows:</strong> Your mind closely monitors physical sensations, interpreting harmless jitters as danger and fueling worry.<br><br><strong>Therapeutic Reframe:</strong> Label the sensation neutrally ('temporary nervous arousal, not danger') to break the anxiety feedback loop.",
+        bd: "<strong>Biological Context (" + ac.stage + "):</strong> " + ac.bio + "<br><br><strong>Genomic &amp; Receptor Pathway:</strong> OpenSNP/GWAS trait summaries show variants in <em>CYP1A2</em> slow caffeine metabolism while <em>ADORA2A</em> heightens receptor sensitivity.<br><br><strong>Biological Reset:</strong> Cut off caffeine before 1 PM and splash cool water on your face to calm sympathetic arousal."
+      }
+    };
+
+    var chosen = bank[topic];
+    document.getElementById("psychPreview").textContent = chosen.ps;
+    document.getElementById("bioPreview").textContent = chosen.bs;
+    document.getElementById("psychDetail").innerHTML = chosen.pd;
+    document.getElementById("bioDetail").innerHTML = chosen.bd;
+
+    document.getElementById("psychPanel").style.display = "none";
+    document.getElementById("bioPanel").style.display = "none";
+    document.getElementById("toBioBar").style.display = "flex";
+    document.getElementById("toPsychBar").style.display = "flex";
+
+    document.getElementById("psychChat").innerHTML = '<div class="bubble bot">Hi <strong>' + profile.handle + '</strong>. Reading what you shared through an <strong>age-' + profile.age + ' psychological lens</strong>, I can hear how much mental energy this is taking. Tell me—when this happens, what is the loudest thought running through your mind?</div>';
+    document.getElementById("bioChat").innerHTML = '<div class="bubble bot">Welcome to the <strong>Biological &amp; Genomic Lens</strong>, ' + profile.handle + '. Ask me anything about how your age-' + profile.age + ' neurochemistry, circadian genes, or stress hormones connect to your symptoms.</div>';
+
+    drawPeers();
+
+    var cb = document.getElementById("choiceBox");
+    cb.style.display = "block";
+    cb.scrollIntoView({ behavior: "smooth" });
+  });
+
+  document.getElementById("openPsychBtn").addEventListener("click", function() {
+    var stage = document.getElementById("centerStage");
+    var p = document.getElementById("psychPanel");
+    var b = document.getElementById("bioPanel");
+    stage.appendChild(p);
+    p.style.display = "block";
+    b.style.display = "none";
+    document.getElementById("toBioBar").style.display = "flex";
+    p.scrollIntoView({ behavior: "smooth" });
+  });
+
+  document.getElementById("openBioBtn").addEventListener("click", function() {
+    var stage = document.getElementById("centerStage");
+    var p = document.getElementById("psychPanel");
+    var b = document.getElementById("bioPanel");
+    stage.appendChild(b);
+    b.style.display = "block";
+    p.style.display = "none";
+    document.getElementById("toPsychBar").style.display = "flex";
+    b.scrollIntoView({ behavior: "smooth" });
+  });
+
+  document.getElementById("unlockBioBtn").addEventListener("click", function() {
+    var stage = document.getElementById("centerStage");
+    var b = document.getElementById("bioPanel");
+    document.getElementById("toBioBar").style.display = "none";
+    document.getElementById("toPsychBar").style.display = "none";
+    stage.appendChild(b);
+    b.style.display = "block";
+    b.scrollIntoView({ behavior: "smooth" });
+  });
+
+  document.getElementById("unlockPsychBtn").addEventListener("click", function() {
+    var stage = document.getElementById("centerStage");
+    var p = document.getElementById("psychPanel");
+    document.getElementById("toBioBar").style.display = "none";
+    document.getElementById("toPsychBar").style.display = "none";
+    stage.appendChild(p);
+    p.style.display = "block";
+    p.scrollIntoView({ behavior: "smooth" });
+  });
+
+  function sendChatMessage(lens) {
+    var inp = document.getElementById(lens === "psych" ? "psychIn" : "bioIn");
+    var stream = document.getElementById(lens === "psych" ? "psychChat" : "bioChat");
+    var val = inp.value.trim();
+    if (!val) return;
+
+    var meClass = lens === "bio" ? "bubble me bio-me" : "bubble me";
+    stream.innerHTML += '<div class="' + meClass + '">' + val.replace(/</g, "&lt;") + '</div>';
+    inp.value = "";
+
+    var q = val.toLowerCase();
+    var answer = "";
+
+    if (lens === "psych") {
+      if (q.indexOf("age") !== -1) {
+        answer = "At age " + profile.age + ", your brain's emotional alarm system fires faster than its cognitive braking network under high stakes. Writing worries down on paper acts as an external brake so your working memory can breathe.";
+      } else if (q.indexOf("overthink") !== -1 || q.indexOf("stop") !== -1 || q.indexOf("thought") !== -1 || q.indexOf("fail") !== -1 || q.indexOf("fear") !== -1) {
+        answer = "Overthinking is your mind trying to predict every outcome to feel safe. Try a <strong>3-Minute Brain Dump</strong>: write every worry on paper, circle only one 15-minute action you control right now, and set a gentle timer.";
+      } else if (q.indexOf("reset") !== -1 || q.indexOf("plan") !== -1 || q.indexOf("how") !== -1 || q.indexOf("help") !== -1) {
+        answer = "Here is a 10-minute reset tailored for you, " + profile.handle + ": (1) Step away from screens for 3 minutes, (2) Take 5 slow breaths with longer exhales, and (3) Start just one tiny sub-topic without judging the outcome.";
+      } else if (q.indexOf("sad") !== -1 || q.indexOf("cry") !== -1 || q.indexOf("alone") !== -1 || q.indexOf("pressure") !== -1 || q.indexOf("tired") !== -1 || q.indexOf("exhaust") !== -1) {
+        answer = "I hear how heavy that feels, " + profile.handle + ". Carrying high expectations silently drains emotional bandwidth. Be as gentle with yourself at age " + profile.age + " as you would be with your closest friend—would you like a 10-minute grounding step or explore the biological side below?";
+      } else {
+        answer = "Thank you for opening up about that ('" + val.replace(/</g, "&lt;") + "'). Notice how your mind is asking for clarity and pacing rather than harsh self-criticism. When you're ready, click below to see how your biological and genomic pathways connect to this.";
+      }
+    } else {
+      if (q.indexOf("gene") !== -1 || q.indexOf("involved") !== -1 || q.indexOf("dna") !== -1) {
+        answer = "In open-source behavioral genomics (OpenSNP / GWAS), three pathways stand out: <strong>COMT</strong> (prefrontal dopamine clearance under stress), <strong>CLOCK/PER2</strong> (circadian melatonin timing), and <strong>CYP1A2</strong> (caffeine metabolism). Genes set sensitivity, while daily habits guide expression.";
+      } else if (q.indexOf("age") !== -1 || q.indexOf("chem") !== -1 || q.indexOf("sleep") !== -1) {
+        answer = "At age " + profile.age + ", neuroplasticity is at a peak—meaning consistent morning sunlight and steady wake times recalibrate your cortisol-melatonin curve much faster than later in adulthood.";
+      } else if (q.indexOf("cortisol") !== -1 || q.indexOf("dopamine") !== -1 || q.indexOf("balance") !== -1) {
+        answer = "To naturally balance cortisol and dopamine: get 10 minutes of outdoor daylight after waking, take 5-minute phone-free breaks between study blocks, and keep a consistent wind-down hour.";
+      } else {
+        answer = "Biologically, your nervous system is adapting to sustained cognitive load. Pairing morning light, steady hydration, and slow-exhale breathing helps restore autonomic balance.";
+      }
+    }
+
+    setTimeout(function() {
+      stream.innerHTML += '<div class="bubble bot">' + answer + '</div>';
+      stream.scrollTop = stream.scrollHeight;
+    }, 200);
+  }
+
+  document.getElementById("psychSendBtn").addEventListener("click", function() { sendChatMessage("psych"); });
+  document.getElementById("bioSendBtn").addEventListener("click", function() { sendChatMessage("bio"); });
+  document.getElementById("psychIn").addEventListener("keydown", function(e) { if (e.key === "Enter") sendChatMessage("psych"); });
+  document.getElementById("bioIn").addEventListener("keydown", function(e) { if (e.key === "Enter") sendChatMessage("bio"); });
+
+  var promptBtns = document.querySelectorAll(".p-pill");
+  for (var j = 0; j < promptBtns.length; j++) {
+    promptBtns[j].addEventListener("click", function() {
+      var lens = this.getAttribute("data-lens");
+      var qText = this.getAttribute("data-q");
+      var inp = document.getElementById(lens === "psych" ? "psychIn" : "bioIn");
+      inp.value = qText;
+      sendChatMessage(lens);
+    });
+  }
+
+  function drawPeers() {
+    var box = document.getElementById("peerSidebar");
+    var sorted = community.slice().sort(function(a, b) {
+      var aScore = (a.topic === activeTopic || a.vibe === profile.vibe) ? 1 : 0;
+      var bScore = (b.topic === activeTopic || b.vibe === profile.vibe) ? 1 : 0;
+      return bScore - aScore;
+    });
+
+    var out = "";
+    for (var i = 0; i < sorted.length; i++) {
+      var p = sorted[i];
+      var isMatch = (p.topic === activeTopic || p.vibe === profile.vibe);
+      var noteHtml = p.notes.length > 0
+        ? '<div class="peer-notes">💬 ' + p.notes[p.notes.length - 1] + '</div>'
+        : '';
+      out += '<div class="peer-card">' +
+        '<div class="peer-top">' +
+          '<span class="peer-handle">' + p.handle + ' (' + p.age + ')</span>' +
+          '<span class="match-badge">' + (isMatch ? '94% Match' : 'Member') + '</span>' +
+        '</div>' +
+        '<div class="peer-vibe">' + p.vibe + '</div>' +
+        '<div class="peer-desc">' + p.bio + '</div>' +
+        noteHtml +
+        '<div class="peer-row">' +
+          '<input type="text" id="peerIn_' + i + '" placeholder="Message ' + p.handle + '..." />' +
+          '<button type="button" class="btn btn-sm peer-send-btn" data-handle="' + p.handle + '" data-idx="' + i + '">Send</button>' +
+        '</div>' +
+      '</div>';
+    }
+    box.innerHTML = out;
+
+    var sendBtns = box.querySelectorAll(".peer-send-btn");
+    for (var k = 0; k < sendBtns.length; k++) {
+      sendBtns[k].addEventListener("click", function() {
+        var targetHandle = this.getAttribute("data-handle");
+        var idx = this.getAttribute("data-idx");
+        var inp = document.getElementById("peerIn_" + idx);
+        var txt = inp.value.trim();
+        if (!txt) return;
+        for (var m = 0; m < community.length; m++) {
+          if (community[m].handle === targetHandle) {
+            community[m].notes.push("<strong>" + profile.handle + ":</strong> " + txt.replace(/</g, "&lt;"));
+          }
+        }
+        drawPeers();
+      });
+    }
+  }
+})();
+</script>
+</body>
+</html>
