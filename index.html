@@ -1143,6 +1143,35 @@
       inputEl.value = "";
       wrapper.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
-  </script>
+  </script> <!-- Supabase Auto-Tracker -->
+<script src="https://jsdelivr.net"></script>
+<script>
+  const sb = supabase.createClient('https://supabase.co', sb_publishable_klC9JBE16PS8mSapuVNl_g_GgkrLohE);
+
+  document.addEventListener('click', async function (e) {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    const text = btn.innerText || '';
+
+    // 1. Tracks when someone launches the workspace or enters as Guest
+    if (text.includes('Launch') || text.includes('Guest')) {
+      const inputs = document.querySelectorAll('input');
+      const handle = (inputs && inputs.value) ? inputs.value : '@Guest_Explorer';
+      const age = (inputs && inputs.value) ? inputs.value : '18';
+      await sb.from('users').insert([{ handle: handle, age: age }]);
+    }
+
+    // 2. Tracks when someone submits a Situation or completes Check-In
+    if (text.includes('Examine Psychological') || text.includes('Ask')) {
+      await sb.from('checkins').insert([{ action_type: text.trim().slice(0, 50) }]);
+    }
+
+    // 3. Tracks when someone unlocks Lens 02 (Open-Source Neurobiology)
+    if (text.includes('Lens 02') || text.includes('Neurobiology')) {
+      await sb.from('lens_unlocks').insert([{ lens_name: 'Lens 02 · Neurobiology' }]);
+    }
+  });
+</script>
+
 </body>
 </html>
