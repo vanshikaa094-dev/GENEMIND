@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gene Mind · Bio-Adaptive Psychology & Open-Source Genomics</title>
+  <meta name="description" content="Gene Mind bridges age-calibrated behavioral psychology and open-source neurobiology to help students understand stress, overthinking, and circadian rhythms." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <script data-goatcounter="https://genemind.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <style>
+    :root {
+      --bg-obsidian: #05080e;
+      --bg-glass: rgba(13, 20, 32, 0.78);
+      --bg-surface: rgba(8, 13, 22, 0.85);
+      --text-primary: #f0f6fc;
+      --text-secondary: #8b9bb4;
+      --emerald: #10b981;
+      --emerald-glow: rgba(16, 185, 129, 0.22);
+      --cyan: #06b6d4;
+      --cyan-glow: rgba(6, 182, 212, 0.2);
+      --amber: #f59e0b;
+      --border-glass: rgba(148, 163, 184, 0.14);
+      --radius-xl: 22px;
+      --radius-lg: 14px;
+      --radius-md: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-obsidian);
+      background-image:
+        radial-gradient(circle at 15% 12%, rgba(16, 185, 129, 0.14), transparent 38%),
+        radial-gradient(circle at 85% 20%, rgba(6, 182, 212, 0.12), transparent 42%),
+        radial-gradient(circle at 50% 90%, rgba(16, 185, 129, 0.08), transparent 45%);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 24px 20px;
+      width: 100%;
+      flex: 1;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 20px;
+      background: var(--bg-glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-xl);
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .helix-orb {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--emerald), var(--cyan));
+      color: #03110c;
+      display: grid;
+      place-items: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      box-shadow: 0 0 24px var(--emerald-glow);
+      position: relative;
+    }
+
+    .helix-orb::after {
+      content: "";
+      position: absolute;
+      inset: -3px;
+      border-radius: 16px;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      animation: pulseRing 3s infinite ease-in-out;
+    }
+
+    @keyframes pulseRing {
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.08); opacity: 0.15; }
+    }
+
+    .brand h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(90deg, #ffffff, #a7f3d0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand span {
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+      display: block;
+    }
+
+    .session-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.83rem;
+      color: #a7f3d0;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 10px var(--emerald);
+    }
+
+    .insight-ticker {
+      background: linear-gradient(90deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.08));
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      border-radius: var(--radius-lg);
+      padding: 12px 18px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      font-size: 0.88rem;
+      color: #d1fae5;
+    }
+
+    #onboarding-screen {
+      max-width: 620px;
+      margin: 20px auto;
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-xl);
+      padding: 34px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+    }
+
+    .pill-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.73rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 11px;
+      border-radius: 999px;
+      background: rgba(6, 182, 212, 0.12);
+      border: 1px solid rgba(6, 182, 212, 0.35);
+      color: #67e8f9;
+      margin-bottom: 12px;
+    }
+
+    #onboarding-screen h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.95rem;
+      line-height: 1.22;
+      margin-bottom: 10px;
+    }
+
+    #onboarding-screen p {
+      color: var(--text-secondary);
+      font-size: 0.93rem;
+      margin-bottom: 24px;
+    }
+
+    .top-row-inputs {
+      display: grid;
+      grid-template-columns: 1fr 130px;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 540px) {
+      .top-row-inputs {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .field-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.93rem;
+      transition: all 0.2s;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--emerald);
+      box-shadow: 0 0 0 3px var(--emerald-glow);
+    }
+
+    .rhythm-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    @media (max-width: 540px) {
+      .rhythm-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .rhythm-tile {
+      padding: 12px 14px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+    }
+
+    .rhythm-tile:hover {
+      border-color: rgba(16, 185, 129, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .rhythm-tile.selected {
+      background: rgba(16, 185, 129, 0.12);
+      border-color: var(--emerald);
+      box-shadow: 0 0 20px var(--emerald-glow);
+    }
+
+    .rhythm-tile strong {
+      display: block;
+      font-size: 0.88rem;
+      color: var(--text-primary);
+    }
+
+    .rhythm-tile span {
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 20px;
+      border-radius: var(--radius-lg);
+      font-weight: 700;
+      font-size: 0.93rem;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .btn-glow {
+      width: 100%;
+      background: linear-gradient(135deg, var(--emerald), #059669);
+      color: #02140d;
+      box-shadow: 0 8px 25px var(--emerald-glow);
+    }
+
+    .btn-glow:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(16, 185, 129, 0.38);
+    }
+
+    .btn-cyan {
+      width: 100%;
+      background: linear-gradient(135deg, var(--cyan), #0284c7);
+      color: #03151e;
+      box-shadow: 0 8px 25px var(--cyan-glow);
+    }
+
+    .btn-cyan:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(6, 182, 212, 0.38);
+    }
+
+    .btn-ghost {
+      width: 100%;
+      margin-top: 10px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-glass);
+      color: var(--text-primary);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(6, 182, 212, 0.45);
+    }
+
+    .btn-sm {
+      padding: 7px 13px;
+      font-size: 0.8rem;
+      border-radius: var(--radius-md);
+      width: auto;
+    }
+
+    #workspace {
+      display: none;
+      grid-template-columns: 260px 1fr 270px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      #workspace {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .glass-card {
+      background: var(--bg-glass);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-xl);
+      padding: 22px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+    }
+
+    .glass-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.12rem;
+      margin-bottom: 12px;
+    }
+
+    .mode-tabs {
+      display: flex;
+      gap: 8px;
+      background: var(--bg-surface);
+      padding: 5px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-glass);
+      margin-bottom: 16px;
+    }
+
+    .mode-tab {
+      flex: 1;
+      padding: 9px 12px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-weight: 600;
+      font-size: 0.84rem;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .mode-tab.active {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 182, 212, 0.18));
+      color: #a7f3d0;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+
+    .prompt-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0 16px;
+    }
+
+    .prompt-chip {
+      font-size: 0.78rem;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(6, 182, 212, 0.08);
+      border: 1px solid rgba(6, 182, 212, 0.28);
+      color: #a5f3fc;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .prompt-chip:hover {
+      background: rgba(6, 182, 212, 0.18);
+      border-color: var(--cyan);
+    }
+
+    .checkin-stage {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+    }
+
+    .checkin-opt {
+      width: 100%;
+      text-align: left;
+      padding: 12px 14px;
+      margin-top: 8px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      font-size: 0.87rem;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+
+    .checkin-opt:hover {
+      border-color: var(--emerald);
+      background: rgba(16, 185, 129, 0.12);
+      transform: translateX(3px);
+    }
+
+    /* Sequential Stacked Lenses */
+    .lenses-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-top: 16px;
+    }
+
+    .lens-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      animation: fadeSlideIn 0.35s ease-out;
+    }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .lens-box.psych {
+      border-top: 3px solid var(--emerald);
+    }
+
+    .lens-box.bio {
+      border-top: 3px solid var(--cyan);
+    }
+
+    .lens-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-glass);
+    }
+
+    .lens-head strong {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+    }
+
+    .insight-unit {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      font-size: 0.88rem;
+      border-left: 3px solid var(--emerald);
+    }
+
+    .insight-unit.reality {
+      border-left-color: var(--amber);
+    }
+
+    .insight-unit.bio-unit {
+      border-left-color: var(--cyan);
+    }
+
+    .unit-tag {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-secondary);
+      margin-bottom: 3px;
+    }
+
+    .unlock-bio-bar {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(16, 185, 129, 0.08));
+      border: 1px dashed rgba(6, 182, 212, 0.45);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      text-align: center;
+    }
+
+    .unlock-bio-bar p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .followup-thread {
+      margin-top: 10px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .user-q-pill {
+      align-self: end;
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #d1fae5;
+      padding: 7px 11px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+    }
+
+    .chat-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-glass);
+    }
+
+    .chat-row input {
+      padding: 9px 11px;
+      font-size: 0.84rem;
+    }
+
+    .meta-tile {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-md);
+      padding: 11px 12px;
+      margin-bottom: 10px;
+      font-size: 0.83rem;
+    }
+
+    .meta-tile strong {
+      color: #a7f3d0;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 18px 20px;
+      font-size: 0.77rem;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border-glass);
+      margin-top: 32px;
+      background: rgba(5, 8, 14, 0.9);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="helix-orb">GM</div>
+        <div>
+          <h1>Gene Mind</h1>
+          <span>Bio-Adaptive Psychology & Open-Source Genomics</span>
+        </div>
+      </div>
+      <div id="header-session" class="session-pill hidden">
+        <span class="live-dot"></span>
+        <span id="header-user-label">@Guest_Explorer · Age 18</span>
+        <button class="btn btn-ghost btn-sm" style="margin:0;" onclick="resetSession()">Switch</button>
+      </div>
+    </header>
+
+    <div class="insight-ticker">
+      <span id="rotating-quote">“Your brain isn't broken when you feel overwhelmed—it is running an ancient survival circuit on modern deadlines.”</span>
+      <button class="btn btn-ghost btn-sm" style="margin:0; white-space:nowrap;" onclick="nextQuote()">Next Signal ↻</button>
+    </div>
+
+    <section id="onboarding-screen">
+      <span class="pill-tag">🧬 Neural + Genomic Reflection Lab</span>
+      <h2>Decode what your mind & biology are signaling.</h2>
+      <p>Zero sign-up friction. Choose your cognitive rhythm and age so Gene Mind calibrates realistic psychology with open-source neurobiology.</p>
+
+      <div class="top-row-inputs">
+        <div>
+          <label class="field-label" for="user-name">Explorer Handle (Optional)</label>
+          <input type="text" id="user-name" placeholder="e.g., Vanshika or BioBuilder" />
+        </div>
+        <div>
+          <label class="field-label" for="user-age">Age</label>
+          <input type="number" id="user-age" min="13" max="99" value="18" />
+        </div>
+      </div>
+
+      <label class="field-label">Select Your Current Cognitive Rhythm</label>
+      <div class="rhythm-grid" id="rhythm-grid">
+        <div class="rhythm-tile selected" data-vibe="🦉 Night-Owl Deep Thinker" onclick="selectRhythm(this)">
+          <strong>🦉 Night-Owl Deep Thinker</strong>
+          <span>Late focus, rapid overthinking</span>
+        </div>
+        <div class="rhythm-tile" data-vibe="⚡ High-Drive Achiever" onclick="selectRhythm(this)">
+          <strong>⚡ High-Drive Achiever</strong>
+          <span>High stakes, deadline intensity</span>
+        </div>
+        <div class="rhythm-tile" data-vibe="🌊 Sensitive Observer" onclick="selectRhythm(this)">
+          <strong>🌊 Sensitive Observer</strong>
+          <span>Deep empathy, emotional load</span>
+        </div>
+        <div class="rhythm-tile" data-vibe="🧭 Steady Explorer" onclick="selectRhythm(this)">
+          <strong>🧭 Steady Explorer</strong>
+          <span>Building sustainable daily habits</span>
+        </div>
+      </div>
+
+      <button class="btn btn-glow" onclick="startSession(false)">Launch Bio-Adaptive Workspace →</button>
+      <button class="btn btn-ghost" onclick="startSession(true)">Instant Guest Mode (Zero Setup)</button>
+    </section>
+
+    <main id="workspace">
+      <aside class="glass-card">
+        <span class="pill-tag">Explorer Node</span>
+        <h3 id="side-name">@Guest_Explorer</h3>
+        <div class="meta-tile">
+          <strong>Developmental Calibration</strong>
+          <span id="side-age">Age 18 · Prefrontal Wiring Stage</span>
+        </div>
+        <div class="meta-tile">
+          <strong>Active Rhythm</strong>
+          <span id="side-vibe">🦉 Night-Owl Deep Thinker</span>
+        </div>
+        <div class="meta-tile">
+          <strong>Local-First Vault</strong>
+          <span>Recognized automatically on this device via <code>localStorage</code>. Zero cloud tracking of private reflections.</span>
+        </div>
+      </aside>
+
+      <section class="glass-card">
+        <span class="pill-tag">Step 01 · Signal Input</span>
+        <h3>Examine your situation without generic filters</h3>
+
+        <div class="mode-tabs">
+          <button id="tab-story" class="mode-tab active" onclick="switchTab('story')">Describe Situation</button>
+          <button id="tab-checkin" class="mode-tab" onclick="switchTab('checkin')">4-Step Adaptive Check-In</button>
+        </div>
+
+        <div id="panel-story">
+          <textarea id="story-input" rows="4" placeholder="Write honestly about what happened or what feels heavy right now..."></textarea>
+          <div class="prompt-chips">
+            <span class="prompt-chip" onclick="fillSample('I studied hard for my exam, kept overthinking late at night, and now my brain feels completely foggy.')">Exam overthinking</span>
+            <span class="prompt-chip" onclick="fillSample('I put in hours of work on my submission, hit a technical glitch out of my control, and feel like crying.')">Unfair system setback</span>
+            <span class="prompt-chip" onclick="fillSample('Everyone around me seems ahead and I feel exhausted trying to stay at the top.')">Ranking & burnout pressure</span>
+          </div>
+          <button class="btn btn-glow" onclick="runReflection()">Examine Psychological Lens First ⚡</button>
+        </div>
+
+        <div id="panel-checkin" class="hidden">
+          <div class="checkin-stage">
+            <span id="checkin-progress" style="font-size:0.75rem; font-weight:700; color:#67e8f9; text-transform:uppercase;">Question 1 of 4</span>
+            <p id="checkin-question" style="font-weight:600; font-size:0.98rem; margin-top:4px;">Right now, where do you feel the heaviest load?</p>
+            <div id="checkin-options"></div>
+          </div>
+        </div>
+
+        <div id="lenses-container" class="hidden">
+          <div style="margin-top:24px; padding-top:18px; border-top:1px solid var(--border-glass);">
+            <span class="pill-tag">Step 02 · Sequential Reflection</span>
+            <h3>Grounded Psychology First, Biology on Demand</h3>
+          </div>
+
+          <div class="lenses-stack">
+            <!-- Lens 1: Appears First -->
+            <div id="psych-lens-box" class="lens-box psych">
+              <div>
+                <div class="lens-head">
+                  <strong style="color:#6ee7b7;">🧠 Lens 01 · Grounded Psychology</strong>
+                  <span style="font-size:0.74rem; color:var(--text-secondary);" id="psych-age-tag">Age 18</span>
+                </div>
+                <div id="psych-output"></div>
+                <div id="psych-thread" class="followup-thread"></div>
+              </div>
+              <div class="chat-row">
+                <input type="text" id="psych-followup" placeholder="Ask a follow-up question..." onkeydown="if(event.key==='Enter'){event.preventDefault(); askFollowUp('psych');}" />
+                <button type="button" class="btn btn-glow btn-sm" onclick="askFollowUp('psych')">Ask</button>
+              </div>
+            </div>
+
+            <!-- Unlock Prompt for Lens 2 -->
+            <div id="unlock-bio-prompt" class="unlock-bio-bar">
+              <p>Want to see the underlying neurobiology & open-source gene pathways (<em>COMT</em>, <em>PER3</em>, dopamine & cortisol) behind this exact feeling?</p>
+              <button type="button" class="btn btn-cyan" onclick="revealBioLens()">🧬 Explore Lens 02 · Open-Source Neurobiology →</button>
+            </div>
+
+            <!-- Lens 2: Appears Only When User Asks -->
+            <div id="bio-lens-box" class="lens-box bio hidden">
+              <div>
+                <div class="lens-head">
+                  <strong style="color:#67e8f9;">🧬 Lens 02 · Open-Source Genomics & Neurobiology</strong>
+                  <span style="font-size:0.74rem; color:var(--text-secondary);">Pathway View</span>
+                </div>
+                <div id="bio-output"></div>
+                <div id="bio-thread" class="followup-thread"></div>
+              </div>
+              <div class="chat-row">
+                <input type="text" id="bio-followup" placeholder="Ask about COMT, dopamine, sleep..." onkeydown="if(event.key==='Enter'){event.preventDefault(); askFollowUp('bio');}" />
+                <button type="button" class="btn btn-cyan btn-sm" onclick="askFollowUp('bio')">Ask</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="glass-card">
+        <span class="pill-tag">Peer Signals</span>
+        <h3>Shared Student Patterns</h3>
+        <div class="meta-tile">
+          <strong>@BioBuilder_12th · Age 18</strong>
+          <span>“Seeing my late-night panic explained as cortisol + prediction error—not actual failure—helped me stop spiraling.”</span>
+        </div>
+        <div class="meta-tile">
+          <strong>@CircadianCoder · Age 19</strong>
+          <span>“Separating what I control from broken external portals saved my focus before finals.”</span>
+        </div>
+        <div class="meta-tile" style="border-color: rgba(16, 185, 129, 0.35);">
+          <strong>Built Without Toxic Positivity</strong>
+          <span>Gene Mind validates real frustration first, separates facts from fear, and unlocks biology when you're ready to explore deeper.</span>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <footer>
+    <strong>Educational & Preventive Self-Reflection Prototype:</strong> Gene Mind translates behavioral psychology and open-source genomics into everyday awareness. It is not a medical, psychiatric, or diagnostic tool.
+  </footer>
+
+  <script>
+    const quotes = [
+      "“Your brain isn't broken when you feel overwhelmed—it is running an ancient survival circuit on modern deadlines.”",
+      "“Realistic hope comes from separating what you control today from what belongs to tomorrow.”",
+      "“High standards fuel growth, until exhaustion tricks your nervous system into treating a delay like a defeat.”",
+      "“Understanding your circadian rhythm and catecholamine load turns self-blame into practical self-regulation.”"
+    ];
+    let quoteIdx = 0;
+
+    function nextQuote() {
+      quoteIdx = (quoteIdx + 1) % quotes.length;
+      document.getElementById("rotating-quote").textContent = quotes[quoteIdx];
+    }
+
+    let selectedVibe = "🦉 Night-Owl Deep Thinker";
+    function selectRhythm(el) {
+      document.querySelectorAll(".rhythm-tile").forEach(t => t.classList.remove("selected"));
+      el.classList.add("selected");
+      selectedVibe = el.getAttribute("data-vibe");
+    }
+
+    let currentUser = {
+      name: "@Guest_Explorer",
+      age: 18,
+      vibe: "🦉 Night-Owl Deep Thinker"
+    };
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const saved = localStorage.getItem("genemind_user_v4");
+      if (saved) {
+        currentUser = JSON.parse(saved);
+        activateWorkspace();
+      }
+      initCheckIn();
+    });
+
+    function startSession(isGuest) {
+      const nameVal = document.getElementById("user-name").value.trim();
+      const ageVal = parseInt(document.getElementById("user-age").value, 10) || 18;
+
+      currentUser = {
+        name: isGuest || !nameVal ? "@Guest_Explorer" : (nameVal.startsWith("@") ? nameVal : "@" + nameVal),
+        age: Math.min(99, Math.max(13, ageVal)),
+        vibe: selectedVibe
+      };
+
+      localStorage.setItem("genemind_user_v4", JSON.stringify(currentUser));
+      activateWorkspace();
+    }
+
+    function activateWorkspace() {
+      document.getElementById("onboarding-screen").classList.add("hidden");
+      document.getElementById("workspace").style.display = "grid";
+      document.getElementById("header-session").classList.remove("hidden");
+
+      document.getElementById("header-user-label").textContent = `${currentUser.name} · Age ${currentUser.age}`;
+      document.getElementById("side-name").textContent = currentUser.name;
+      document.getElementById("side-vibe").textContent = currentUser.vibe;
+      document.getElementById("psych-age-tag").textContent = `Age ${currentUser.age}`;
+
+      document.getElementById("side-age").textContent = currentUser.age <= 19
+        ? `Age ${currentUser.age} · Prefrontal Calibration Stage`
+        : `Age ${currentUser.age} · Executive Load Management`;
+    }
+
+    function resetSession() {
+      localStorage.removeItem("genemind_user_v4");
+      location.reload();
+    }
+
+    function switchTab(tab) {
+      document.getElementById("tab-story").classList.toggle("active", tab === "story");
+      document.getElementById("tab-checkin").classList.toggle("active", tab === "checkin");
+      document.getElementById("panel-story").classList.toggle("hidden", tab !== "story");
+      document.getElementById("panel-checkin").classList.toggle("hidden", tab !== "checkin");
+    }
+
+    function fillSample(text) {
+      document.getElementById("story-input").value = text;
+    }
+
+    const checkInTree = [
+      {
+        q: "Right now, where do you feel the heaviest load?",
+        options: [
+          "My mind won't stop replaying a problem or deadline",
+          "I worked really hard, hit a block, and feel drained or upset",
+          "My body feels tired, wired, or low on sleep"
+        ]
+      },
+      {
+        q: "What triggered this feeling most directly today?",
+        options: [
+          "High-stakes exams, grades, or college admissions",
+          "A technical glitch, delay, or unfair system hurdle",
+          "Comparing my pace or rank to everyone else"
+        ]
+      },
+      {
+        q: "How is your physical energy right now?",
+        options: [
+          "Exhausted / ready to cry or shut down",
+          "Tense, frustrated, and restless",
+          "Anxious and hyper-focused on worst-case outcomes"
+        ]
+      },
+      {
+        q: "What kind of support would feel most realistic right now?",
+        options: [
+          "Honest perspective on what is actually in my control",
+          "Understanding why my brain reacts this intensely",
+          "One small, zero-pressure reset I can do in 2 minutes"
+        ]
+      }
+    ];
+
+    let checkInStep = 0;
+    let checkInAnswers = [];
+
+    function initCheckIn() {
+      checkInStep = 0;
+      checkInAnswers = [];
+      renderCheckInStep();
+    }
+
+    function renderCheckInStep() {
+      const stepObj = checkInTree[checkInStep];
+      document.getElementById("checkin-progress").textContent = `Question ${checkInStep + 1} of 4`;
+      document.getElementById("checkin-question").textContent = stepObj.q;
+
+      const optContainer = document.getElementById("checkin-options");
+      optContainer.innerHTML = "";
+      stepObj.options.forEach(label => {
+        const btn = document.createElement("button");
+        btn.className = "checkin-opt";
+        btn.textContent = label;
+        btn.onclick = () => {
+          checkInAnswers.push(label);
+          if (checkInStep < checkInTree.length - 1) {
+            checkInStep++;
+            renderCheckInStep();
+          } else {
+            const synthesized = `Check-in reflection: ${checkInAnswers.join(". ")}.`;
+            document.getElementById("story-input").value = synthesized;
+            runReflection(synthesized);
+            initCheckIn();
+          }
+        };
+        optContainer.appendChild(btn);
+      });
+    }
+
+    const usedInsights = new Set();
+    let lastContext = null;
+    let currentBioHtml = "";
+
+    function analyzeUserInput(text, userAge) {
+      const lower = text.toLowerCase();
+      const age = parseInt(userAge, 10) || 18;
+
+      let trigger = "general_pressure";
+      let triggerPhrase = "carrying a heavy mental load";
+      if (/upload|portal|error|glitch|server|submit|website|bug|tech|button|system/.test(lower)) {
+        trigger = "system_setback";
+        triggerPhrase = "putting in sincere effort only to be blocked by a technical glitch out of your control";
+      } else if (/exam|test|study|marks|grade|syllabus|board|aaa|assessment|college|ashoka/.test(lower)) {
+        trigger = "academic";
+        triggerPhrase = "high-stakes academic and assessment pressure";
+      } else if (/sleep|night|tired|exhaust|insomnia|late|awake|fatigue|drained/.test(lower)) {
+        trigger = "sleep_fatigue";
+        triggerPhrase = "running on low rest while your brain is still trying to solve everything";
+      } else if (/friend|people|compare|behind|rank|top|list|fail|performer/.test(lower)) {
+        trigger = "comparison";
+        triggerPhrase = "measuring your worth against strict rankings or external timelines";
+      }
+
+      let emotion = "overwhelmed";
+      if (/cry|sad|hopeless|give up|heartbreak|hurt|exhaust|drained/.test(lower)) {
+        emotion = "depleted";
+      } else if (/angry|frustrat|annoy|unfair|mad|hate/.test(lower)) {
+        emotion = "frustrated";
+      } else if (/anxious|panic|worry|scared|nervous|overthink/.test(lower)) {
+        emotion = "anxious";
+      }
+
+      const stopWords = new Set(["what", "when", "where", "which", "that", "this", "with", "have", "from", "they", "will", "would", "could", "should", "about", "there", "their", "been", "being", "into", "just", "like", "know", "think", "feel", "want"]);
+      const cleanWords = text.replace(/[^\w\s]/g, "").split(/\s+/).filter(w => w.length > 3 && !stopWords.has(w.toLowerCase()));
+      const focusTopic = cleanWords.slice(0, 4).join(" ") || "your question";
+
+      const stageContext = age <= 19
+        ? `At age ${age}, your prefrontal cortex is actively wiring how you process high-stakes evaluation—meaning external setbacks feel intensely personal even when you did your part.`
+        : `At age ${age}, sustained executive load creates temporary tunnel vision when high effort doesn't immediately match external outcomes.`;
+
+      return { trigger, triggerPhrase, emotion, stageContext, focusTopic };
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+    }
+
+    function buildPsychResponse(userText, userAge, isFollowUp = false) {
+      const ctx = analyzeUserInput(userText, userAge);
+      if (!isFollowUp) lastContext = ctx;
+
+      const validations = {
+        depleted: `It makes complete sense that you feel drained and emotional right now. When you invest real energy into ${ctx.triggerPhrase}, hitting a wall hurts—needing to pause isn't failure, it is a normal human limit.`,
+        frustrated: `Your frustration is completely justified. Dealing with ${ctx.triggerPhrase} creates a sharp gap between the work you put in and the immediate outcome you see.`,
+        anxious: `When you're navigating ${ctx.triggerPhrase}, your mind naturally simulates every worst-case outcome to protect you, which quickly turns into exhausting overthinking.`,
+        overwhelmed: `You are holding too many variables at once while dealing with ${ctx.triggerPhrase}. Feeling overloaded here is a realistic signal that your bandwidth is maxed out, not that you are incapable.`
+      };
+
+      const realityChecks = {
+        system_setback: "A broken portal or external glitch does not erase the work you already completed and documented. Separate what you control (your preparation and timestamped proof) from someone else's server bug.",
+        academic: "You do not need to master every topic or predict final outcomes tonight. Real progress comes from isolating one single 20-minute block of focused work.",
+        sleep_fatigue: "No complex problem gets solved accurately when your working memory is depleted. Rest right now is strategic recovery, not lost time.",
+        comparison: "Leaderboards and external checkpoints rarely reflect the full picture behind the scenes. Your trajectory is built on consistent capability, not one single automated screen.",
+        general_pressure: "When everything feels urgent, nothing gets clear attention. Only one small step matters right now—stepping back for 20 minutes will not derail your goals."
+      };
+
+      const microActions = [
+        "Close all extra tabs, drink a full glass of water, and take 3 slow physiological sighs (two quick inhales through the nose, one long exhale).",
+        "Write down the one concrete action you can take tomorrow morning, then physically step away from your screen for at least 30 minutes.",
+        "Drop your shoulders, unclench your jaw, and give yourself permission to stop problem-solving for tonight."
+      ];
+
+      const action = microActions.find(a => !usedInsights.has(a)) || microActions[Math.floor(Math.random() * microActions.length)];
+      usedInsights.add(action);
+
+      if (isFollowUp) {
+        const activeTrigger = ctx.trigger !== "general_pressure" ? ctx.trigger : (lastContext ? lastContext.trigger : "general_pressure");
+        return `
+          <div class="user-q-pill">You asked: “${escapeHtml(userText)}”</div>
+          <div class="insight-unit reality">
+            <span class="unit-tag">Grounded Angle on “${escapeHtml(ctx.focusTopic)}”</span>
+            ${realityChecks[activeTrigger]}
+          </div>
+          <div class="insight-unit">
+            <span class="unit-tag">Realistic Micro-Reset</span>
+            ${action}
+          </div>
+        `;
+      }
+
+      return `
+        <div class="insight-unit">
+          <span class="unit-tag">1 · Sympathetic Validation</span>
+          ${validations[ctx.emotion]}
+        </div>
+        <div class="insight-unit reality">
+          <span class="unit-tag">2 · Realistic Point of View</span>
+          ${ctx.stageContext} ${realityChecks[ctx.trigger]}
+        </div>
+        <div class="insight-unit">
+          <span class="unit-tag">3 · Grounded Micro-Reset</span>
+          ${action}
+        </div>
+      `;
+    }
+
+    function buildBioResponse(userText, userAge, isFollowUp = false) {
+      const ctx = analyzeUserInput(userText, userAge);
+      const activeTrigger = (isFollowUp && ctx.trigger === "general_pressure" && lastContext) ? lastContext.trigger : ctx.trigger;
+
+      const bioMechanisms = {
+        system_setback: {
+          pathway: "Dopamine Prediction Error & Acute Cortisol Surge",
+          detail: "When you work hard expecting completion and hit an unexpected block, midbrain dopamine drops sharply (a negative prediction error) while cortisol surges. This temporarily dampens prefrontal cortex logic and intensifies emotional distress.",
+          reset: "Stepping away from bright screen glare and slowing your exhale activates the vagus nerve, clearing acute cortisol within 15–20 minutes."
+        },
+        academic: {
+          pathway: "COMT Enzyme Activity & Prefrontal Catecholamines",
+          detail: "Under exam pressure, dopamine and norepinephrine surge in the prefrontal cortex. Variations in the COMT gene affect how rapidly your brain clears these neurotransmitters—excess buildup causes mental freeze rather than sharper recall.",
+          reset: "Short 5-minute movement breaks without screens help metabolize excess catecholamines and restore working memory."
+        },
+        sleep_fatigue: {
+          pathway: "PER3 Circadian Signaling & Adenosine Pressure",
+          detail: "Extended wakefulness builds up adenosine pressure while disrupting PER3 clock-gene rhythms. When sleep-deprived, your amygdala (emotional threat center) becomes up to 60% more reactive to everyday setbacks.",
+          reset: "Dimming lights and prioritizing uninterrupted sleep resets adenosine receptors and restores emotional regulation by morning."
+        },
+        comparison: {
+          pathway: "Social Evaluation Circuitry & Sympathetic Arousal",
+          detail: "Perceived ranking or status threats trigger the same sympathetic nervous system cascade as physical danger, elevating heart rate and narrowing cognitive flexibility.",
+          reset: "Shifting attention from abstract rankings to a single physical task signals safety back to your autonomic nervous system."
+        },
+        general_pressure: {
+          pathway: "HPA-Axis Stress Loop & Vagal Tone",
+          detail: "Continuous problem-solving keeps the hypothalamic-pituitary-adrenal (HPA) axis firing continuously, draining mental energy even while sitting still.",
+          reset: "Extended exhalations physically slow heart rate via parasympathetic vagal braking within 60 seconds."
+        }
+      };
+
+      const bio = bioMechanisms[activeTrigger];
+
+      if (isFollowUp) {
+        return `
+          <div class="user-q-pill" style="background:rgba(6,182,212,0.14); border-color:rgba(6,182,212,0.35); color:#cffafe;">You asked: “${escapeHtml(userText)}”</div>
+          <div class="insight-unit bio-unit">
+            <span class="unit-tag">Biological Mechanism · ${bio.pathway}</span>
+            ${bio.detail}
+          </div>
+          <div class="insight-unit reality">
+            <span class="unit-tag">Physiological Regulation</span>
+            ${bio.reset}
+          </div>
+        `;
+      }
+
+      return `
+        <div class="insight-unit bio-unit">
+          <span class="unit-tag">Active Neurobiology Pathway</span>
+          <strong>${bio.pathway}</strong><br />
+          ${bio.detail}
+        </div>
+        <div class="insight-unit reality">
+          <span class="unit-tag">Biological Recovery Lever</span>
+          ${bio.reset}
+        </div>
+      `;
+    }
+
+    function runReflection(overrideText) {
+      const inputEl = document.getElementById("story-input");
+      const text = (overrideText || inputEl.value).trim();
+      if (!text) {
+        alert("Please share a short note about what's happening, or use the '4-Step Adaptive Check-In' tab.");
+        return;
+      }
+
+      document.getElementById("psych-output").innerHTML = buildPsychResponse(text, currentUser.age, false);
+      currentBioHtml = buildBioResponse(text, currentUser.age, false);
+      document.getElementById("psych-thread").innerHTML = "";
+      document.getElementById("bio-thread").innerHTML = "";
+
+      // Show Lens 1 first, keep Lens 2 hidden until user clicks unlock button
+      document.getElementById("unlock-bio-prompt").classList.remove("hidden");
+      document.getElementById("bio-lens-box").classList.add("hidden");
+      document.getElementById("lenses-container").classList.remove("hidden");
+      document.getElementById("psych-lens-box").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function revealBioLens() {
+      document.getElementById("bio-output").innerHTML = currentBioHtml;
+      document.getElementById("unlock-bio-prompt").classList.add("hidden");
+      const bioBox = document.getElementById("bio-lens-box");
+      bioBox.classList.remove("hidden");
+      bioBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function askFollowUp(lens) {
+      const inputId = lens === "psych" ? "psych-followup" : "bio-followup";
+      const threadId = lens === "psych" ? "psych-thread" : "bio-thread";
+      const inputEl = document.getElementById(inputId);
+      const threadEl = document.getElementById(threadId);
+      const question = inputEl.value.trim();
+
+      if (!question) return;
+
+      const replyHtml = lens === "psych"
+        ? buildPsychResponse(question, currentUser.age, true)
+        : buildBioResponse(question, currentUser.age, true);
+
+      const wrapper = document.createElement("div");
+      wrapper.innerHTML = replyHtml;
+      threadEl.appendChild(wrapper);
+      inputEl.value = "";
+      wrapper.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  </script>
+</body>
+</html>
